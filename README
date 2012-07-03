@@ -1,0 +1,88 @@
+Maze Solver
+===========
+
+This is a simple, yet useful, implementation of a solving algorithm in C.
+The code is a fork from Paul Griffiths' code. Thanks!
+
+How it works
+------------
+
+We have a file in which there is a maze and it's size in the format:
+
+ROWS COLUMNS
+MAZEMAZEMAZEMAZE
+MAZEMAZEMAZEMAZE
+MAZEMAZEMAZEMAZE
+MAZEMAZEMAZEMAZE
+MAZEMAZEMAZEMAZE
+
+An example
+----------
+
+10 20
+XXXXXXXXXXXXXXXXXXXX
+X X        X       X
+X X XXXX XXX XXXXXXX
+X X X              X
+X X X XXXXX XXX X XX
+X XXX X   X X X X XX
+X     X   X X XXXXXX
+X XXXXX X X        X
+X X     X   X   XX X
+XXXXXXXXXXXXXXXXXXXX
+
+Which means that this maze has 10 rows and 20 columns.
+
+Next we'll tell it where we want the entrance and the exit to be.
+An example would be:
+* Entrance:
+* --- X: 19
+* --- Y: 1
+* Exit:
+* --- X: 19
+* --- Y: 10
+
+XXXXXXXXXXXXXXXXXXIX
+X X        X       X
+X X XXXX XXX XXXXXXX
+X X X              X
+X X X XXXXX XXX X XX
+X XXX X   X X X X XX
+X     X   X X XXXXXX
+X XXXXX X X        X
+X X     X   X   XX X
+XXXXXXXXXXXXXXXXXXOX
+
+
+Then we can obtain a path:
+
+XXXXXXXXXXXXXXXXXXIX
+X X        XoooooooX
+X X XXXX XXXoXXXXXXX
+X X X      oo      X
+X X X XXXXXoXXX X XX
+X XXX X   XoX X X XX
+X     X   XoX XXXXXX
+X XXXXX X Xooo ooooX
+X X     X   XoooXXoX
+XXXXXXXXXXXXXXXXXXOX
+
+
+Or an optimal path:
+
+XXXXXXXXXXXXXXXXXXIX
+X X        XoooooooX
+X X XXXX XXXoXXXXXXX
+X X X      oo      X
+X X X XXXXXoXXX X XX
+X XXX X   XoX X X XX
+X     X   XoX XXXXXX
+X XXXXX X XooooooooX
+X X     X   X   XXoX
+XXXXXXXXXXXXXXXXXXOX
+
+
+Try other examples
+------------------
+
+I've included some other example(s).
