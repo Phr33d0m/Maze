@@ -1,8 +1,8 @@
 /* Labyrinth Solver by D.M. (dm@politeia.in)
  * A fork from the Paul Griffiths code. Thanks!
+ * Menu in English.
  * ********************************************
- * Codigo en C para la resolucion de un laberinto.
- * Menú en Español.
+ * Codigo en C para la resolucion de un laberinto. 
  * 
  * Date: 02-07-2012
  */
@@ -18,7 +18,7 @@ int ImportLabyrinth(char *fn, struct labyrinth *labyrinth) {
 
     // Abrir archivo
     if ( !(fp = fopen(fn, "r")) ) {
-        puts("\nError al abrir el archivo.");
+        puts("\nCouldn't open the file.");
         perror(buffer);
         
         return 0;
@@ -29,7 +29,7 @@ int ImportLabyrinth(char *fn, struct labyrinth *labyrinth) {
     n = rows;
 
     if ( !(map = malloc(n * sizeof *map)) ) {
-        fputs("Couldn't allocate memory for map\n", stderr);
+        puts("Couldn't allocate memory for map\n");
         
         return 0;
     }
@@ -42,7 +42,7 @@ int ImportLabyrinth(char *fn, struct labyrinth *labyrinth) {
         fgets(buffer, columns+2, fp);
 
         if ( !(map[n] = malloc((strlen(buffer)+1) * sizeof map[n])) ) {
-            puts("\nNo se ha podido reservar memoria");
+            puts("\nCouldn't allocate memory.");
 
             for ( i = 0; i < n; ++i )
                 free(map[i]);
@@ -60,7 +60,7 @@ int ImportLabyrinth(char *fn, struct labyrinth *labyrinth) {
         ++n;
     }
     
-    // Rellenar datos
+    // Fill the relevant data
     labyrinth->map = map;
     labyrinth->rows = rows;
     labyrinth->columns = columns;
@@ -68,7 +68,7 @@ int ImportLabyrinth(char *fn, struct labyrinth *labyrinth) {
 
     // Cerrar archivo
     if ( fclose(fp) ) {
-        puts("Error al cerrar el archivo.");
+        puts("\nCouldn't close the file.");
         FreeMemory(labyrinth);
         
         return 0;

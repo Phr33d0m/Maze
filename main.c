@@ -44,21 +44,21 @@ int main() {
         switch(menu){
             case 1: 
                 system(CLEAR);
-                puts("1.- Leer el laberinto."); 
-                puts("**********************");
-                printf("Introduzca nombre de archivo: ");
+                puts("1.- Read the maze from a file."); 
+                puts("******************************");
+                printf("Please input filename: ");
                 gets(file);
                 
-                // Liberamos memoria si antes habiamos cargado otro laberinto.
+                // We free out memory if another maze has been loaded before
                 if(avance>0) FreeMemory(&labyrinth);
                 
                 if(ImportLabyrinth(file, &labyrinth)) {
                     avance=1;
-                    puts("\nArchivo leido y laberinto importado con exito!");
-                    printf("--- Filas: %d\n--- Columnas: %d\n",labyrinth.rows,labyrinth.columns);
+                    puts("\nMaze succesfully imported into memory!");
+                    printf("--- Rows: %d\n--- Columns: %d\n",labyrinth.rows,labyrinth.columns);
                     ShowLabyrinth(&labyrinth);
                 }
-                else puts("Ha habido un error en la lectura del fichero");
+                else puts("There has been an error opening the file.");
                 
                 puts(CONTINUE);
                 getchar();
@@ -66,17 +66,16 @@ int main() {
 
             case 2: 
                 system(CLEAR);
-                puts("2.- Definir los puntos de entrada y salida."); 
-                puts("*******************************************");
+                puts("2.- Set the entrance and exit points."); 
+                puts("*************************************");
                 
                 if(avance>0) {
                     IOvars(&labyrinth, &tempE[0], &tempS[0], &avance, false);
-                    printf("\navance='%d'\ntempE[0]='%d'\ntempE[1]='%d'\ntempS[0]='%d'\ntempS[1]='%d'\n",avance,tempE[0],tempE[1],tempS[0],tempS[1]);
                     puts(CONTINUE);
                     getchar();
                 }
                 else { 
-                    puts("No puedes acceder aqui antes de cargar el laberinto.");
+                    puts("You have to import a maze first..");
                     puts(CONTINUE);
                     getchar();
                 }
@@ -84,29 +83,28 @@ int main() {
                 
             case 3: 
                 system(CLEAR);
-                puts("3.- Obtener un camino."); 
+                puts("3.- Get a path."); 
                 puts("**********************");
                 
                 if(avance>1) {
                     if (solve(&labyrinth, false) == LABYRINTH_FOUNDEXIT) {
-                        puts("\nSe ha encontrado una salida!");
+                        puts("\nFound an exit!");
                         ShowLabyrinth(&labyrinth);
                         
-                        // Si, aunque me duela en el alma lo tendre que hacer...
+                        // If someone knows a better way of doing this please send it to me
+                        // either via github or email. Thanks!
                         FreeMemory(&labyrinth);
-                        // Importar laberinto otra vez
                         ImportLabyrinth(file, &labyrinth);
-                        // Importar coordenadas otra vez
                         IOvars(&labyrinth, &tempE[0], &tempS[0], &avance, true);
                     }
                     else {
-                        puts("\n\nNo se ha encontrado ninguna salida!\nSi cree que esto es un error, por favor no suspenda al programador!!");
+                        puts("\n\nSorry :( I couldn't find an exit!");
                     }
                     puts(CONTINUE);
                     getchar();
                 }
                 else { 
-                    puts("No puedes acceder aqui antes de cargar el laberinto y definir las entradas/salidas.");
+                    puts("Set the entrance/exit points first!");
                     puts(CONTINUE);
                     getchar();
                 }
@@ -114,29 +112,28 @@ int main() {
 
             case 4: 
                 system(CLEAR);
-                puts("4.- Obtener el camino más corto."); 
+                puts("4.- Get the shortest path."); 
                 puts("********************************");
                 
                 if(avance>1) {
                     if (solve(&labyrinth, true) == LABYRINTH_FOUNDEXIT) {
-                        puts("\nSe ha encontrado la salida optima!");
+                        puts("\nFound shortest path!!");
                         ShowLabyrinth(&labyrinth);
                         
-                        // Si alguien sabe como mejorar el aspecto de esto que me lo mande por github o email
+                        // If someone knows a better way of doing this please send it to me
+                        // either via github or email. Thanks!
                         FreeMemory(&labyrinth);
-                        // Importar laberinto otra vez
                         ImportLabyrinth(file, &labyrinth);
-                        // Importar coordenadas otra vez
                         IOvars(&labyrinth, &tempE[0], &tempS[0], &avance, true);
                     }
                     else {
-                        puts("\n\nNo se ha encontrado ninguna salida!\nSi cree que esto es un error, por favor no suspenda al programador!!");
+                        puts("\n\nSorry :( I couldn't find an exit!");
                     }
                     puts(CONTINUE);
                     getchar();
                 }
                 else { 
-                    puts("No puedes acceder aqui antes de cargar el laberinto y definir las entradas/salidas.");
+                    puts("Set the entrance/exit points first!");
                     puts(CONTINUE);
                     getchar();
                 }
@@ -145,11 +142,11 @@ int main() {
             case 5:
                 system(CLEAR);
                 menu=5;
-                puts(" \n  ***  FIN DEL PROGRAMA  ***\n"); 
+                puts(" \n  ***  THE END  ***\n"); 
                 break;
 
             default:
-            puts("Opcion erronea. Por favor elija una opcion del menu."); 
+            puts("Wrong option, please choose from the menu from 1 to 5."); 
             break;
             
         }
@@ -166,7 +163,7 @@ void IOvars(struct labyrinth *labyrinth, int *tempE, int *tempS, int *avance, bo
     char *temp, number[1024];
     if(!redo) {
         while(!yesno) {
-            puts("--- Coordenadas de entrada:");
+            puts("--- Entrance:");
             printf("--- X: ");
             //
             tempE[0]=atoi(gets(number));
@@ -175,9 +172,9 @@ void IOvars(struct labyrinth *labyrinth, int *tempE, int *tempS, int *avance, bo
             tempE[1]=atoi(gets(number));
 
             if(tempE[0]<=labyrinth->columns && tempE[1]<=labyrinth->rows) {
-                printf("\nRecibidos:\n--- X: %d\n--- Y: %d\n",tempE[0],tempE[1]);
+                printf("\nRecieved:\n--- X: %d\n--- Y: %d\n",tempE[0],tempE[1]);
 
-                printf("Es correcto? [y/n] ");
+                printf("Is this correct? [y/n] ");
                 if(getchar()=='y') yesno = true;
                 getchar();
                 if(yesno) {
@@ -197,7 +194,7 @@ void IOvars(struct labyrinth *labyrinth, int *tempE, int *tempS, int *avance, bo
         yesno=false;
 
         while(!yesno) {
-            puts("--- Coordenadas de salida:");
+            puts("--- Exit:");
             printf("--- X: ");
             //
             tempS[0]=atoi(gets(number));
@@ -206,9 +203,9 @@ void IOvars(struct labyrinth *labyrinth, int *tempE, int *tempS, int *avance, bo
             tempS[1]=atoi(gets(number));
 
             if(tempS[0]<=labyrinth->columns && tempS[1]<=labyrinth->rows) {
-                printf("\nRecibidos:\n--- X: %d\n--- Y: %d\n",tempS[0],tempS[1]);
+                printf("\nRecieved:\n--- X: %d\n--- Y: %d\n",tempS[0],tempS[1]);
 
-                printf("Es correcto? [y/n] ");
+                printf("Is this correct? [y/n] ");
                 if(getchar()=='y') yesno = true;
                 getchar();
                 if(yesno) {
@@ -217,8 +214,8 @@ void IOvars(struct labyrinth *labyrinth, int *tempE, int *tempS, int *avance, bo
                 }
             }
             else {
-                puts("\nERROR: Se ha excedido en alguna de las variables.");
-                printf("El valor maximo que puede tomar X es %d y el que puede tomar Y es %d",labyrinth->columns,labyrinth->rows);
+                puts("\nERROR: You've exceeded the size of the maze.");
+                printf("The maximum value of X can be %d and the maximum value of Y can be %d",labyrinth->columns,labyrinth->rows);
             }
 
         }

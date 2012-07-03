@@ -1,8 +1,8 @@
 /* Labyrinth Solver by D.M. (dm@politeia.in)
  * A fork from the Paul Griffiths code. Thanks!
+ * Menu in English.
  * ********************************************
- * Codigo en C para la resolucion de un laberinto.
- * Menú en Español.
+ * Codigo en C para la resolucion de un laberinto. 
  * 
  * Date: 02-07-2012
  */
@@ -13,7 +13,7 @@
 int solve(struct labyrinth *labyrinth, bool opt) {
     struct position position;
 
-    // Ahora toca decidir en que direccion empezaremos.
+    // This will decide the direction in which we'll start to search.
     if ( labyrinth->beginx < strlen(labyrinth->map[labyrinth->beginy]) - 1 && labyrinth->map[labyrinth->beginy][labyrinth->beginx+1] != LABYRINTH_WALL ) {
         if(opt) labyrinth->startdir = MOVE_RIGHT_OP;
         else labyrinth->startdir = MOVE_RIGHT;
@@ -31,7 +31,7 @@ int solve(struct labyrinth *labyrinth, bool opt) {
         else labyrinth->startdir = MOVE_DOWN;
     }
     
-    // Nos posicionamos
+    // Lets set the initial coordinates.
     position.x = labyrinth->beginx;
     position.y = labyrinth->beginy;
     position.dir = labyrinth->startdir;
@@ -44,7 +44,7 @@ int solve(struct labyrinth *labyrinth, bool opt) {
 int resolve(struct labyrinth *labyrinth, struct position position, bool opt) {
     int i, n;
 
-    // Este if() depende de si queremos la solucion optima o una cualquiera
+    // This if() depends on if we want an optimal path or whatever (not optimal) path
     if(opt) {
         switch ( position.dir ) {
             case MOVE_UP_OP:

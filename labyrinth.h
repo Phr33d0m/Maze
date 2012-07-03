@@ -1,8 +1,8 @@
 /* Labyrinth Solver by D.M. (dm@politeia.in)
  * A fork from the Paul Griffiths code. Thanks!
+ * Menu in English.
  * ********************************************
- * Codigo en C para la resolucion de un laberinto.
- * Menú en Español.
+ * Codigo en C para la resolucion de un laberinto. 
  * 
  * Date: 02-07-2012
  */
@@ -17,30 +17,30 @@
 #include <ctype.h>
 #include <stdbool.h> // Porque utilizaremos variables booleanas
 
-// <<Etructuras>>
+// <<Structures>>
 // --------------
 
-// Estructura de nuestro laberinto
+// The structure of the maze
 struct labyrinth {
     char **map;
-    int beginx, beginy; // Coordenadas de la entrada
-    int endx, endy; // Coordenadas de la salida
-    int rows, columns; // Filas y columnas
-    int startdir; // Direccion en la que empezar a resolver
+    int beginx, beginy; // Entrance coordinates
+    int endx, endy; // Exit coordinates
+    int rows, columns; // Rows and columns
+    int startdir; // Starting direction in which we'll start searching [0-3]
 };
 
-// Estructura auxiliar con la que recorreremos el laberinto
+// Auxiliar structure with which we'll browse the maze
 struct position {
     int x, y, dir;
 };
 
 
 
-// <<Macros que utilizara el programa>>
-// ------------------------------------
+// <<Macros>>
+// ----------
 
-// Estos macros de aqui abajo se pueden cambiar dependiendo del sistema operativo
-// y condiciones del laberinto.
+// Please change this macros corresponding to your operating system and maze conditions
+// Note: CLEAR for Linux is "clear" and for Windows is "cls"
 #define CLEAR "clear"
 
 #define BIGBUFFER (1000)
@@ -52,7 +52,7 @@ struct position {
 #define LABYRINTH_TRACE    'o'
 #define LABYRINTH_VISITED  ' '
 
-// De aqui hacia abajo no es recomendable cambiar nada!
+// Don't change anything below if you don't know what you're doing.
 #define MOVE_LEFT  (3)
 #define MOVE_UP    (2)
 #define MOVE_RIGHT (1)
@@ -67,19 +67,19 @@ struct position {
 #define LABYRINTH_FOUNDEXIT  (1)
 #define LABYRINTH_NOEXIT    (-1)
 
-#define CONTINUE        "\nPulse intro (Enter) para continuar..."
+#define CONTINUE        "\nPress Enter to continue..."
 
 
-// <<Declaracion de funciones>>
+// <<Declaration of functions>>
 // ----------------------------
 
-// Funcion para importar el laberinto desde un archivo
+// Function to import the maze from a file
 int ImportLabyrinth(char *fn, struct labyrinth *labyrinth);
 
-// Mostrar el laberinto
+// Print the maze
 void ShowLabyrinth(struct labyrinth *labyrinth);
 
-// Liberar memoria, 'destruye' el laberinto.
+// This will free the memory used by the maze.
 void FreeMemory(struct labyrinth *labyrinth);
 
 

@@ -13,7 +13,7 @@
 
 #include "labyrinth.h"
 
-// Funciones clave para la resolucion del laberinto.
+// Functions that will solve the maze.
 int solve(struct labyrinth *labyrinth, bool opt);
 int resolve(struct labyrinth *labyrinth, struct position position, bool opt);
 
