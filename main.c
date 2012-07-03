@@ -139,8 +139,8 @@ int main(int argc, char *argv[]) {
                     puts(CONTINUE);
                     getchar();
                 }
-                
                 break;
+                
             case 3: 
                 system(CLEAR);
                 puts("3.- Obtener un camino."); 
@@ -178,7 +178,6 @@ int main(int argc, char *argv[]) {
                     puts(CONTINUE);
                     getchar();
                 }
-                
                 break;
 
             case 4: 
@@ -219,7 +218,6 @@ int main(int argc, char *argv[]) {
                     puts(CONTINUE);
                     getchar();
                 }
-                
                 break;
 
             case 5:
@@ -231,21 +229,13 @@ int main(int argc, char *argv[]) {
             default:
             puts("Opcion erronea. Por favor elija una opcion del menu."); 
             break;
-
+            
         }
-        
     } while (menu!=5);
 
     system(CLEAR);
     return EXIT_SUCCESS;
-
     
-
-
-    ShowLabyrinth(&labyrinth);
-    FreeMemory(&labyrinth);
-    
-    return EXIT_SUCCESS;
 }
 
 
