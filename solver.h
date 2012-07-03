@@ -1,8 +1,8 @@
 /* Labyrinth Solver by D.M. (dm@politeia.in)
  * A fork from the Paul Griffiths code. Thanks!
+ * Menu in English.
  * ********************************************
- * Codigo en C para la resolucion de un laberinto.
- * Menú en Español.
+ * Codigo en C para la resolucion de un laberinto. 
  * 
  * Date: 02-07-2012
  */
