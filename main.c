@@ -6,20 +6,23 @@
  * Date: 02-07-2012
  */
 
-
+// Incluimos la libreria que contiene todo lo que tiene que ver con el laberinto
 #include "labyrinth.h"
+
+// Esta funcion nos servira para definir las variables de entrada/salida
+// IOvars = Input Output variables
+void IOvars(struct labyrinth *labyrinth, int *tempE, int *tempS, int *avance, bool redo);
 
 // <<MAIN>>
 // --------
-int main(int argc, char *argv[]) {
+int main() {
     // MENU vars
-    bool yesno=false;
-    int menu=-1, avance=0, tempE[2], tempS[2];
-    char opcion[2], number[1024];
+    int menu=-1, avance=0, tempE[1], tempS[1];
+    char opcion[2];
     
     // Labyrinth vars
     struct labyrinth labyrinth;
-    char *temp,file[1024];
+    char file[1024];
     
     // === MENU ===
     // ------------
@@ -66,71 +69,8 @@ int main(int argc, char *argv[]) {
                 puts("*******************************************");
                 
                 if(avance>0) {
-                    while(!yesno) {
-                        puts("--- Coordenadas de entrada:");
-                        printf("--- X: ");
-                        //
-                        tempE[0]=atoi(gets(number));
-                        printf("--- Y: ");
-                        //
-                        tempE[1]=atoi(gets(number));
-                        
-                        if(tempE[0]<=labyrinth.columns && tempE[1]<=labyrinth.rows) {
-                            printf("\nRecibidos:\n--- X: %d\n--- Y: %d\n",tempE[0],tempE[1]);
-
-                            printf("Es correcto? [y/n] ");
-                            if(getchar()=='y') yesno = true;
-                            getchar();
-                            if(yesno) {
-                                labyrinth.beginx=tempE[0]-1;
-                                labyrinth.beginy=tempE[1]-1;
-                            }
-                        }
-                        else {
-                            puts("\nERROR: Se ha excedido en alguna de las variables.");
-                            printf("El valor maximo que puede tomar X es %d y el que puede tomar Y es %d",labyrinth.columns,labyrinth.rows);
-                        }
-
-                    }
-                    temp=labyrinth.map[labyrinth.beginy];
-                    temp[labyrinth.beginx] = LABYRINTH_IN;
-                    labyrinth.map[labyrinth.beginy]=temp;
-                    yesno=false;
-
-                    while(!yesno) {
-                        puts("--- Coordenadas de salida:");
-                        printf("--- X: ");
-                        //
-                        tempS[0]=atoi(gets(number));
-                        printf("--- Y: ");
-                        //
-                        tempS[1]=atoi(gets(number));
-                        
-                        if(tempS[0]<=labyrinth.columns && tempS[1]<=labyrinth.rows) {
-                            printf("\nRecibidos:\n--- X: %d\n--- Y: %d\n",tempS[0],tempS[1]);
-
-                            printf("Es correcto? [y/n] ");
-                            if(getchar()=='y') yesno = true;
-                            getchar();
-                            if(yesno) {
-                                labyrinth.endx=tempS[0]-1;
-                                labyrinth.endy=tempS[1]-1;
-                            }
-                        }
-                        else {
-                            puts("\nERROR: Se ha excedido en alguna de las variables.");
-                            printf("El valor maximo que puede tomar X es %d y el que puede tomar Y es %d",labyrinth.columns,labyrinth.rows);
-                        }
-
-                    }
-                    temp=labyrinth.map[labyrinth.endy];
-                    temp[labyrinth.endx] = LABYRINTH_OUT;
-                    labyrinth.map[labyrinth.endy]=temp;
-                    yesno=false;
-                    avance=2;
-
-                    puts("");
-                    ShowLabyrinth(&labyrinth);
+                    IOvars(&labyrinth, &tempE[0], &tempS[0], &avance, false);
+                    printf("\navance='%d'\ntempE[0]='%d'\ntempE[1]='%d'\ntempS[0]='%d'\ntempS[1]='%d'\n",avance,tempE[0],tempE[1],tempS[0],tempS[1]);
                     puts(CONTINUE);
                     getchar();
                 }
@@ -153,19 +93,10 @@ int main(int argc, char *argv[]) {
                         
                         // Si, aunque me duela en el alma lo tendre que hacer...
                         FreeMemory(&labyrinth);
-                        // Importar laberinto
+                        // Importar laberinto otra vez
                         ImportLabyrinth(file, &labyrinth);
-                        // Importar coordenadas
-                        labyrinth.beginx=tempE[0]-1;
-                        labyrinth.beginy=tempE[1]-1;
-                        labyrinth.endx=tempS[0]-1;
-                        labyrinth.endy=tempS[1]-1;
-                        temp=labyrinth.map[labyrinth.beginy];
-                        temp[labyrinth.beginx] = LABYRINTH_IN;
-                        labyrinth.map[labyrinth.beginy]=temp;
-                        temp=labyrinth.map[labyrinth.endy];
-                        temp[labyrinth.endx] = LABYRINTH_OUT;
-                        labyrinth.map[labyrinth.endy]=temp;
+                        // Importar coordenadas otra vez
+                        IOvars(&labyrinth, &tempE[0], &tempS[0], &avance, true);
                     }
                     else {
                         puts("\n\nNo se ha encontrado ninguna salida!\nSi cree que esto es un error, por favor no suspenda al programador!!");
@@ -190,22 +121,12 @@ int main(int argc, char *argv[]) {
                         puts("\nSe ha encontrado la salida optima!");
                         ShowLabyrinth(&labyrinth);
                         
-                        // Si, aunque me duela en el alma lo tendre que hacer...
                         // Si alguien sabe como mejorar el aspecto de esto que me lo mande por github o email
                         FreeMemory(&labyrinth);
-                        // Importar laberinto
+                        // Importar laberinto otra vez
                         ImportLabyrinth(file, &labyrinth);
-                        // Importar coordenadas
-                        labyrinth.beginx=tempE[0]-1;
-                        labyrinth.beginy=tempE[1]-1;
-                        labyrinth.endx=tempS[0]-1;
-                        labyrinth.endy=tempS[1]-1;
-                        temp=labyrinth.map[labyrinth.beginy];
-                        temp[labyrinth.beginx] = LABYRINTH_IN;
-                        labyrinth.map[labyrinth.beginy]=temp;
-                        temp=labyrinth.map[labyrinth.endy];
-                        temp[labyrinth.endx] = LABYRINTH_OUT;
-                        labyrinth.map[labyrinth.endy]=temp;
+                        // Importar coordenadas otra vez
+                        IOvars(&labyrinth, &tempE[0], &tempS[0], &avance, true);
                     }
                     else {
                         puts("\n\nNo se ha encontrado ninguna salida!\nSi cree que esto es un error, por favor no suspenda al programador!!");
@@ -239,3 +160,86 @@ int main(int argc, char *argv[]) {
 }
 
 
+void IOvars(struct labyrinth *labyrinth, int *tempE, int *tempS, int *avance, bool redo) {
+    bool yesno=false;
+    char *temp, number[1024];
+    if(!redo) {
+        while(!yesno) {
+            puts("--- Coordenadas de entrada:");
+            printf("--- X: ");
+            //
+            tempE[0]=atoi(gets(number));
+            printf("--- Y: ");
+            //
+            tempE[1]=atoi(gets(number));
+
+            if(tempE[0]<=labyrinth->columns && tempE[1]<=labyrinth->rows) {
+                printf("\nRecibidos:\n--- X: %d\n--- Y: %d\n",tempE[0],tempE[1]);
+
+                printf("Es correcto? [y/n] ");
+                if(getchar()=='y') yesno = true;
+                getchar();
+                if(yesno) {
+                    labyrinth->beginx=tempE[0]-1;
+                    labyrinth->beginy=tempE[1]-1;
+                }
+            }
+            else {
+                puts("\nERROR: Se ha excedido en alguna de las variables.");
+                printf("El valor maximo que puede tomar X es %d y el que puede tomar Y es %d",labyrinth->columns,labyrinth->rows);
+            }
+
+        }
+        temp=labyrinth->map[labyrinth->beginy];
+        temp[labyrinth->beginx] = LABYRINTH_IN;
+        labyrinth->map[labyrinth->beginy]=temp;
+        yesno=false;
+
+        while(!yesno) {
+            puts("--- Coordenadas de salida:");
+            printf("--- X: ");
+            //
+            tempS[0]=atoi(gets(number));
+            printf("--- Y: ");
+            //
+            tempS[1]=atoi(gets(number));
+
+            if(tempS[0]<=labyrinth->columns && tempS[1]<=labyrinth->rows) {
+                printf("\nRecibidos:\n--- X: %d\n--- Y: %d\n",tempS[0],tempS[1]);
+
+                printf("Es correcto? [y/n] ");
+                if(getchar()=='y') yesno = true;
+                getchar();
+                if(yesno) {
+                    labyrinth->endx=tempS[0]-1;
+                    labyrinth->endy=tempS[1]-1;
+                }
+            }
+            else {
+                puts("\nERROR: Se ha excedido en alguna de las variables.");
+                printf("El valor maximo que puede tomar X es %d y el que puede tomar Y es %d",labyrinth->columns,labyrinth->rows);
+            }
+
+        }
+        temp=labyrinth->map[labyrinth->endy];
+        temp[labyrinth->endx] = LABYRINTH_OUT;
+        labyrinth->map[labyrinth->endy]=temp;
+        yesno=false;
+        *avance=2;
+
+        puts("");
+        ShowLabyrinth(labyrinth);
+    }
+    else {
+        labyrinth->beginx=tempE[0]-1;
+        labyrinth->beginy=tempE[1]-1;
+        labyrinth->endx=tempS[0]-1;
+        labyrinth->endy=tempS[1]-1;
+        temp=labyrinth->map[labyrinth->beginy];
+        temp[labyrinth->beginx] = LABYRINTH_IN;
+        labyrinth->map[labyrinth->beginy]=temp;
+        temp=labyrinth->map[labyrinth->endy];
+        temp[labyrinth->endx] = LABYRINTH_OUT;
+        labyrinth->map[labyrinth->endy]=temp;
+    }
+}
