@@ -1,16 +1,16 @@
 /* Labyrinth Solver by D.M. (dm@politeia.in)
  * A fork from the Paul Griffiths code. Thanks!
+ * Menu in English.
  * ********************************************
  * Codigo en C para la resolucion de un laberinto. 
- * Menú en Español.
  * 
  * Date: 02-07-2012
  */
 
-// Incluimos la libreria que contiene todo lo que tiene que ver con el laberinto
+// This library has everything we need, if you have to change anything go there
 #include "labyrinth.h"
 
-// Esta funcion nos servira para definir las variables de entrada/salida
+// Function to define input and output variables
 // IOvars = Input Output variables
 void IOvars(struct labyrinth *labyrinth, int *tempE, int *tempS, int *avance, bool redo);
 
@@ -31,13 +31,13 @@ int main() {
         menu=-1;
         
         system(CLEAR);
-        puts("    ### LABERINTO ###");
+        puts("    ### LABYRINTH ###");
         puts("    #*#*#*#*#*#*#*#*#\n");
-        puts(" 1.- Leer el laberinto.");
-        puts(" 2.- Definir los puntos de entrada y salida.");
-        puts(" 3.- Obtener un camino.");
-        puts(" 4.- Obtener el camino más corto.");
-        puts(" 5.- Salir.\n");
+        puts(" 1.- Read the maze from a file.");
+        puts(" 2.- Set the entrance and exit points.");
+        puts(" 3.- Get a path.");
+        puts(" 4.- Get the shortest path.");
+        puts(" 5.- Exit.\n");
         printf(" >>: ");
         menu=atoi(gets(opcion));
         
